@@ -2434,7 +2434,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 483728c01d6c5ad4c8228dd15a0d9173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameUI
-  timer: {fileID: 1709284797}
   gameInfoRect: {fileID: 341986591}
   boardRect: {fileID: 1068370314}
   gameInfoMoveInSettings:
