@@ -23,13 +23,15 @@ public class GameUI : MonoBehaviour
 
     public void OnGameStart()
     {
+        playerXUI.SetSprite(GameController.SelectedPlayers.sprX);
+        playerOUI.SetSprite(GameController.SelectedPlayers.sprO);
+        
         Tween.UIAnchoredPositionY(gameInfoRect, gameInfoMoveInSettings)
             .Group(Tween.UIAnchoredPositionY(boardRect, boardMoveInSettings));
     }
 
     public void OnPlayerSwitch(TicTacToe.Symbol player)
     {
-        Debug.Log("Switch: " + player.ToString());
         if (player == TicTacToe.Symbol.X)
         {
             playerXUI.ScaleUp();
@@ -40,6 +42,14 @@ public class GameUI : MonoBehaviour
             playerXUI.ScaleDown();
             playerOUI.ScaleUp();
         }
+    }
+
+    public void OnPlayerTurnCountChanged(TicTacToe.Symbol player, int turnCount)
+    {
+        if (player == TicTacToe.Symbol.X)
+            playerXUI.SetTurnCount(turnCount);
+        else
+            playerOUI.SetTurnCount(turnCount);
     }
 
     public void OnGameEnd()

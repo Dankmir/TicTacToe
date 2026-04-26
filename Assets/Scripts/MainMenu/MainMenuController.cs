@@ -1,6 +1,5 @@
-using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
+using UnityEngine;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -15,36 +14,50 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] StatsMenu statsMenu;
     [SerializeField] SimpleButton btnStatsClose;
 
+    [Header("Theme Selection Menu")]
+    [SerializeField] ThemeSelectionMenu themeSelectionMenu;
+    [SerializeField] SimpleButton btnStart;
+    [SerializeField] SimpleButton btnBack;
+
     private void Awake()
     {
         btnPlay.onClick.AddListener(OnPlay);
         btnStats.onClick.AddListener(OnStats);
         btnStatsClose.onClick.AddListener(OnStatsClose);
+        btnStart.onClick.AddListener(OnStart);
+        btnBack.onClick.AddListener(OnBack);
+
         StatsManager.Instance.OnStatsChanged += statsMenu.RefreshStats;
     }
 
-    private async void Start()
+    private void Start()
     {
         AudioManager.Instance.PlayMusic(Music.Main);
-        await StatsManager.Instance.Load();
+        StatsManager.Instance.LoadStats();
+
+        mainMenu.Show();
     }
 
-    private void OnPlay()
+    private void OnPlay() => mainMenu.Hide(themeSelectionMenu.Show);
+
+    private void OnStart()
     {
-        mainMenu.Hide(() =>
+        themeSelectionMenu.Hide(() =>
         {
             btnQuit.gameObject.SetActive(false);
-            SceneManager.LoadScene("GameScene", LoadSceneMode.Additive);
+            GameController.SelectedPlayers = themeSelectionMenu.GetSelectedPlayers();
+            SceneManager.LoadScene("GameScene");
         });
     }
 
-    private void OnStats()
-    {
-        mainMenu.Hide(() => statsMenu.Show());
-    }
+    private void OnBack() => themeSelectionMenu.Hide(mainMenu.Show);
 
-    private void OnStatsClose()
+    private void OnStats() => mainMenu.Hide(statsMenu.Show);
+
+    private void OnStatsClose() => statsMenu.Hide(mainMenu.Show);
+
+    private void OnDestroy()
     {
-        statsMenu.Hide(() => mainMenu.Show());
+        // StatsManager.Instance.OnStatsChanged -= statsMenu.RefreshStats;
     }
 }

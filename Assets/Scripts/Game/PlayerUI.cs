@@ -14,6 +14,14 @@ public class PlayerUI : MonoBehaviour
 
     private Tween scaleUpTween, scaleDownTween;
 
+    public void SetSprite(Sprite spr) => playerSymbolImage.overrideSprite = spr;
+
+    public void SetTurnCount(int count)
+    {
+        if (txtTurnCount)
+            txtTurnCount.text = $"{count}";
+    }
+
     public void ScaleUp()
     {
         if (transform.localScale.x == scaleUpSettings.endValue)

@@ -7,6 +7,7 @@ public static class Initializer
     {
         Initialize<StatsManager>();
         Initialize<AudioManager>();
+        Initialize<PopupsManager>();
     }
 
     private static void Initialize<T>() where T : MonoBehaviour

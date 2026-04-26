@@ -487,8 +487,8 @@ MonoBehaviour:
   - {fileID: 2003003977}
   - {fileID: 2019057259}
   - {fileID: 846275053}
-  symbolX: {fileID: 510430870557453287, guid: df3df83a377cb874ab59b758f160b697, type: 3}
-  symbolO: {fileID: 2718036562086355530, guid: dcaf38b58e354ce419054f87ea45c6f1, type: 3}
+  boardSymbol: {fileID: 5525540279261689967, guid: df3df83a377cb874ab59b758f160b697, type: 3}
+  strikePrefab: {fileID: 4549597053760794843, guid: 04179dcbc6791c8498a04a7fab1bc239, type: 3}
 --- !u!4 &524122333
 Transform:
   m_ObjectHideFlags: 0
@@ -2398,7 +2398,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 331169913
+  m_SortingLayerID: -1320883677
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &2096374495

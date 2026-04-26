@@ -24,6 +24,8 @@ public class BoardSymbol : MonoBehaviour
             .Group(Tween.Alpha(symbolImage, alphaSettings));
     }
 
+    public void SetSprite(Sprite spr) => symbolImage.overrideSprite = spr;
+
     private void OnDisable()
     {
         spawnSequence.Stop();

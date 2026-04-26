@@ -24,10 +24,8 @@ public class GameTimer : MonoBehaviour
 
     public void StartTimer()
     {
-        if (coroutine == null)
-            coroutine = StartCoroutine(TimerCoroutine());
-        else
-            ResetTimer();
+        ResetTimer();
+        coroutine ??= StartCoroutine(TimerCoroutine());
     }
 
     public void StopTimer()

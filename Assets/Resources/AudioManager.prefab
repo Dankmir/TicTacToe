@@ -49,6 +49,14 @@ MonoBehaviour:
   soundEffects:
   - sound: 0
     audioClip: {fileID: 8300000, guid: a42ee75550c68c14e90cf1075d171b9b, type: 3}
+  - sound: 1
+    audioClip: {fileID: 8300000, guid: 6d8158ba89e041b4fa1cc73bd3845c00, type: 3}
+  - sound: 2
+    audioClip: {fileID: 8300000, guid: e5bcbef24b7e475419abc711976df254, type: 3}
+  - sound: 3
+    audioClip: {fileID: 8300000, guid: cd3c3a7a2467cc241be034c4d76a3ecf, type: 3}
+  - sound: 4
+    audioClip: {fileID: 8300000, guid: 1ed6054e88a94c8479b7f9ad741f15f3, type: 3}
   musics:
   - music: 0
     audioClip: {fileID: 8300000, guid: 417a8846cc92f214eba38fe1626f329a, type: 3}

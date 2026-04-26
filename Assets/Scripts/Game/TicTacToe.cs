@@ -4,40 +4,43 @@ using System;
 public class TicTacToe
 {
     public enum Symbol { X, O, None }
-    public enum Result { InvalidMove, None, WinX, WinO, Draw }
 
-    private readonly int size;
-    private Symbol[,] board;
-    private int[] rows;
-    private int[] cols;
-    private int diag;
-    private int antiDiag;
+    private readonly Symbol[,] board;
     private Symbol currentPlayer;
 
     public event Action<int, int, Symbol> OnValidMove;
     public event Action<Symbol> OnPlayerSwitch;
-    public event Action<Symbol> OnGameWon;
-    public event Action OnDraw;
-    public event Action<Symbol> OnGameEnd;
+    public event Action<(Symbol winner, (int row, int col)[] line)> OnGameEnd;
 
     public bool IsGameOver { get; private set; }
 
-    public TicTacToe(int size)
+    readonly (int row, int col)[][] winningLines = new (int, int)[][]
     {
-        this.size = size;
+        // Rows
+        new[] { (0,0), (0,1), (0,2) },
+        new[] { (1,0), (1,1), (1,2) },
+        new[] { (2,0), (2,1), (2,2) },
+
+        // Columns
+        new[] { (0,0), (1,0), (2,0) },
+        new[] { (0,1), (1,1), (2,1) },
+        new[] { (0,2), (1,2), (2,2) },
+
+        // Diagonals
+        new[] { (0,0), (1,1), (2,2) },
+        new[] { (0,2), (1,1), (2,0) }
+    };
+
+    public TicTacToe()
+    {
+        board = new Symbol[3, 3];
     }
 
     public void Start()
     {
-        board = new Symbol[size, size];
-        for (int i = 0; i < size; i++)
-            for (int j = 0; j < size; j++)
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
                 board[i, j] = Symbol.None;
-
-        rows = new int[size];
-        cols = new int[size];
-        diag = 0;
-        antiDiag = 0;
 
         IsGameOver = false;
         currentPlayer = Symbol.X;
@@ -52,25 +55,25 @@ public class TicTacToe
         board[row, col] = currentPlayer;
         OnValidMove?.Invoke(row, col, currentPlayer);
 
-        bool isWinner = StepBoard(row, col, currentPlayer);
+        var (winner, line) = CheckWinner();
 
-        if (isWinner)
+        if (winner != Symbol.None || IsBoardFull())
         {
-            OnGameEnd?.Invoke(currentPlayer);
+            OnGameEnd?.Invoke((winner, line));
             IsGameOver = true;
         }
-        else if (IsBoardFull())
-        {
-            OnGameEnd?.Invoke(Symbol.None);
-            IsGameOver = true;
-        }
+        // else if (IsBoardFull())
+        // {
+        //     OnGameEnd?.Invoke(());
+        //     IsGameOver = true;
+        // }
         else
             SwitchPlayer();
     }
 
     private bool IsValidMove(int row, int col)
     {
-        if (row >= size || row < 0 || col >= size || col < 0)
+        if (row >= 3 || row < 0 || col >= 3 || col < 0)
             return false;
 
         if (board[row, col] != Symbol.None)
@@ -79,23 +82,20 @@ public class TicTacToe
         return true;
     }
 
-    private bool StepBoard(int row, int col, Symbol symbol)
+    private (Symbol Winner, (int row, int col)[] Line) CheckWinner()
     {
-        int a = symbol == Symbol.X ? 1 : -1;
+        foreach (var line in winningLines)
+        {
+            var first = board[line[0].row, line[0].col];
 
-        rows[row] += a;
-        cols[col] += a;
+            if (first == Symbol.None)
+                continue;
 
-        if (row == col)
-            diag += a;
-
-        if (row + col == size - 1)
-            antiDiag += a;
-
-        return Mathf.Abs(rows[row]) == size
-            || Mathf.Abs(cols[col]) == size
-            || Mathf.Abs(diag) == size
-            || Mathf.Abs(antiDiag) == size;
+            if (board[line[1].row, line[1].col] == first && board[line[2].row, line[2].col] == first)
+                return (first, line);
+        }
+    
+        return (Symbol.None, Array.Empty<(int, int)>());
     }
 
     private bool IsBoardFull()

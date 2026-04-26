@@ -10,6 +10,8 @@ public class Menu : MonoBehaviour
     [SerializeField] TweenSettings<float> showSettings;
     [SerializeField] TweenSettings<float> hideSettings;
 
+    public bool IsShown { get; private set; }
+
     private Tween showTween, hideTween;
 
     public void Show() => Show(null);
@@ -20,15 +22,18 @@ public class Menu : MonoBehaviour
         hideTween.Stop();
         gameObject.SetActive(true);
         showTween = Tween.UIAnchoredPositionY(rect, showSettings).OnComplete(onShown);
+        AudioManager.Instance.PlaySfx(Sound.PopupOpen);
+        IsShown = true;
     }
 
-    public async void Hide(Action onHidden)
+    public void Hide(Action onHidden)
     {
         showTween.Stop();
         hideTween = Tween.UIAnchoredPositionY(rect, hideSettings).OnComplete(() =>
         {
             gameObject.SetActive(false);
             onHidden?.Invoke();
+            IsShown = false;
         });
     }
 }

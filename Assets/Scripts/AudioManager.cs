@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 
-public enum Sound { Click }
+public enum Sound { Click, BoardClick, Strike, Success, PopupOpen }
 public enum Music { Main }
 
 [Serializable]

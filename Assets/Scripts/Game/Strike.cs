@@ -16,6 +16,7 @@ public class Strike : MonoBehaviour
     // Attached to an animation event
     public void SpawnParticles()
     {
+        AudioManager.Instance.PlaySfx(Sound.Strike);
         if (particles)
             particles.Play();
     }

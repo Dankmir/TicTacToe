@@ -23,7 +23,19 @@ public class StatsManager : MonoBehaviour
             Instance = this;
     }
 
-    public async Awaitable Load()
+    public void LoadStats()
+    {
+        var data = PlayerPrefs.GetString("stats", "{}");
+        Stats = JsonUtility.FromJson<Stats>(data);
+    }
+
+    public void SaveStats()
+    {
+        var json = JsonUtility.ToJson(Stats);
+        PlayerPrefs.SetString("stats", json);
+    }
+
+    public async void Load()
     {
         var path = Path.Join(Application.persistentDataPath, "stats.json");
         if (!File.Exists(path))

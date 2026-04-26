@@ -35,5 +35,9 @@ public class BoardField : ButtonBehaviour
         }
     }
 
-    public override void OnClick() => onClick?.Invoke();
+    public override void OnClick()
+    {
+        AudioManager.Instance.PlaySfx(Sound.BoardClick);
+        onClick?.Invoke();
+    }
 }
